@@ -1,0 +1,6 @@
+name: achievements
+version: 1.0.0
+description: Achievements Plugin for PolymorphicBot
+dependencies:
+  polymorphic_bot:
+    git: git://github.com/PolymorphicBot/PolymorphicBot.git
