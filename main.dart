@@ -4,6 +4,4 @@ BotConnector bot;
 
 void main(args, Plugin plugin) {
   bot = plugin.getBot();
-  
-  
 }
