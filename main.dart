@@ -96,7 +96,7 @@ void main(args, Plugin myPlugin) {
       var a = registered[id];
       event.replyNotice("'${a.name}' provided by ${a.plugin}: ${a.description}");
     }
-  }, permission: "list");
+  });
   
   bot.command("achieved", (event) {
     if (event.args.length > 1) {
@@ -111,5 +111,5 @@ void main(args, Plugin myPlugin) {
     } else {
       event.reply("[${Color.BLUE}Achievements${Color.NORMAL}] ${achievements.where((it) => registered.containsKey(it)).map((it) => registered[it].name).join(", ")}");
     }
-  }, permission: "achieved");
+  });
 }
