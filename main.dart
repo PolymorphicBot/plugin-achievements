@@ -1,6 +1,7 @@
 import "package:polymorphic_bot/api.dart";
 import "package:achievements/api.dart";
 import "package:irc/client.dart" show Color;
+import "dart:async";
 
 BotConnector bot;
 Plugin plugin;
@@ -13,13 +14,16 @@ void main(args, Plugin myPlugin) {
   bot = plugin.getBot();
   storage = plugin.getStorage("achievements");
   
-  bot.getConfig().then((config) {
-    if (config.containsKey("achievements")) {
-      Map<String, dynamic> c = config["achievements"];
-      if (c.containsKey("alerts")) {
-        alerts = c["alerts"];
+
+  new Future.delayed(new Duration(seconds: 5), () {
+    bot.getConfig().then((config) {
+      if (config.containsKey("achievements")) {
+        Map<String, dynamic> c = config["achievements"];
+        if (c.containsKey("alerts")) {
+          alerts = c["alerts"];
+        }
       }
-    }
+    });
   });
   
   plugin.addRemoteMethod("give", (call) {
