@@ -12,7 +12,7 @@ Map<String, List<String>> alerts = {};
 void main(args, Plugin myPlugin) {
   plugin = myPlugin;
   bot = plugin.getBot();
-  storage = plugin.getStorage("achievements");
+  storage = plugin.getStorage("achievements")..load();
   
 
   new Future.delayed(new Duration(seconds: 5), () {
@@ -37,13 +37,17 @@ void main(args, Plugin myPlugin) {
       return;
     }
     
+    if (!registered.containsKey(achievement)) {
+      return;
+    }
+    
     achievements.add(achievement);
     storage.set("achievements by ${user} on ${network}", achievements);
     
     if (alerts.containsKey(network)) {
       var tell = alerts[network];
       for (var target in tell) {
-        bot.sendMessage(network, target, "[${Color.BLUE}Achievements${Color.NORMAL}] ${user} earned '${achievement}'");
+        bot.sendMessage(network, target, "[${Color.BLUE}Achievements${Color.NORMAL}] ${user} earned '${registered[achievement].name}'");
       }
     }
   });
