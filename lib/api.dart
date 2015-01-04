@@ -26,11 +26,13 @@ class Achievements {
   }
   
   void register(Achievement achievement) {
-    bot.plugin.callRemoteMethod("achievements", "register", {
-      "id": achievement.id,
-      "name": achievement.name,
-      "description": achievement.description,
-      "plugin": bot.plugin.name
+    new Future.delayed(new Duration(seconds: 3), () {
+      bot.plugin.callRemoteMethod("achievements", "register", {
+        "id": achievement.id,
+        "name": achievement.name,
+        "description": achievement.description,
+        "plugin": bot.plugin.name
+      });
     });
   }
   
