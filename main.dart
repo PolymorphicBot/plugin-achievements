@@ -14,7 +14,6 @@ void main(args, Plugin myPlugin) {
   bot = plugin.getBot();
   storage = plugin.getStorage("achievements")..load();
   
-
   new Future.delayed(new Duration(seconds: 5), () {
     bot.getConfig().then((config) {
       if (config.containsKey("achievements")) {
@@ -63,7 +62,8 @@ void main(args, Plugin myPlugin) {
       return {
         "id": it.id,
         "name": it.name,
-        "description": it.description
+        "description": it.description,
+        "plugin": it.plugin
       };
     }).toList());
   });
@@ -72,7 +72,8 @@ void main(args, Plugin myPlugin) {
     var id = call.getArgument("id");
     var name = call.getArgument("name");
     var description = call.getArgument("description");
-    registered[id] = new Achievement(name, id, description);
+    var plugin = call.getArgument("plugin");
+    registered[id] = new Achievement(name, id, description, plugin);
   });
   
   plugin.addRemoteMethod("remove", (call) {
@@ -89,4 +90,26 @@ void main(args, Plugin myPlugin) {
     achievements.remove(achievement);
     storage.set("achievements by ${user} on ${network}", achievements);
   });
+  
+  bot.command("list-achievements", (event) {
+    for (var id in registered.keys) {
+      var a = registered[id];
+      event.replyNotice("'${a.name}' provided by ${a.plugin}: ${a.description}");
+    }
+  }, permission: "list");
+  
+  bot.command("achieved", (event) {
+    if (event.args.length > 1) {
+      event.reply("[${Color.BLUE}Achievements${Color.NORMAL}] Usage: achieved [user]");
+      return;
+    }
+        
+    List<String> achievements = storage.get("achievements by ${event.args} on ${event.network}", []);
+    
+    if (achievements.isEmpty) {
+      event.reply("[${Color.BLUE}Achievements${Color.NORMAL}] No Achievements Earned");
+    } else {
+      event.reply("[${Color.BLUE}Achievements${Color.NORMAL}] ${achievements.where((it) => registered.containsKey(it)).map((it) => registered[it].name).join(", ")}");
+    }
+  }, permission: "achieved");
 }

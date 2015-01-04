@@ -7,8 +7,9 @@ class Achievement {
   final String name;
   final String id;
   final String description;
+  final String plugin;
   
-  Achievement(this.name, this.id, this.description);
+  Achievement(this.name, this.id, this.description, [this.plugin]);
 }
 
 class Achievements {
@@ -28,7 +29,8 @@ class Achievements {
     bot.plugin.callRemoteMethod("achievements", "register", {
       "id": achievement.id,
       "name": achievement.name,
-      "description": achievement.description
+      "description": achievement.description,
+      "plugin": bot.plugin.name
     });
   }
   
@@ -38,7 +40,7 @@ class Achievements {
       "user": user
     }).then((List<Map<String, dynamic>> maps) {
       return maps.map((it) {
-        return new Achievement(it["name"], it["id"], it["description"]);
+        return new Achievement(it["name"], it["id"], it["description"], it["plugin"]);
       }).toList();
     });
   }
