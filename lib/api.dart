@@ -31,7 +31,7 @@ class Achievements {
         "id": achievement.id,
         "name": achievement.name,
         "description": achievement.description,
-        "plugin": bot.plugin.name
+        "plugin": bot.plugin.displayName
       });
     });
   }
