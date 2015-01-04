@@ -104,7 +104,7 @@ void main(args, Plugin myPlugin) {
       return;
     }
         
-    List<String> achievements = storage.get("achievements by ${event.args} on ${event.network}", []);
+    List<String> achievements = storage.get("achievements by ${event.args.isEmpty ? event.user ? event.args[0]} on ${event.network}", []);
     
     if (achievements.isEmpty) {
       event.reply("[${Color.BLUE}Achievements${Color.NORMAL}] No Achievements Earned");
