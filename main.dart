@@ -11,8 +11,11 @@ Map<String, List<String>> alerts = {};
 
 void main(args, Plugin myPlugin) {
   plugin = myPlugin;
+  
   bot = plugin.getBot();
-  storage = plugin.getStorage("achievements")..load();
+  storage = plugin.getStorage("achievements");
+  
+  storage.load();
   
   new Future.delayed(new Duration(seconds: 5), () {
     bot.getConfig().then((config) {
