@@ -33,7 +33,7 @@ void main(args, Plugin myPlugin) {
     var user = call.getArgument("user");
     var achievement = call.getArgument("achievement");
     
-    List<String> achievements = storage.get("achievements by ${user} on ${network}", []);
+    List<String> achievements = storage.getList("achievements by ${user} on ${network}", defaultValue: []);
     
     if (achievements.contains(achievement)) {
       return;
@@ -44,7 +44,7 @@ void main(args, Plugin myPlugin) {
     }
     
     achievements.add(achievement);
-    storage.set("achievements by ${user} on ${network}", achievements);
+    storage.setList("achievements by ${user} on ${network}", achievements);
     
     if (alerts.containsKey(network)) {
       var tell = alerts[network];
@@ -58,7 +58,7 @@ void main(args, Plugin myPlugin) {
     var network = call.getArgument("network");
     var user = call.getArgument("user");
     
-    List<String> achievements = storage.get("achievements by ${user} on ${network}", []);
+    List<String> achievements = storage.getList("achievements by ${user} on ${network}", defaultValue: []);
     call.reply(achievements.where((it) => registered.containsKey(it)).map((it) {
       return registered[it];
     }).map((it) {
@@ -84,14 +84,14 @@ void main(args, Plugin myPlugin) {
     var user = call.getArgument("user");
     var achievement = call.getArgument("achievement");
     
-    List<String> achievements = storage.get("achievements by ${user} on ${network}", []);
+    List<String> achievements = storage.getList("achievements by ${user} on ${network}", defaultValue: []);
     
     if (!achievements.contains(achievement)) {
       return;
     }
     
     achievements.remove(achievement);
-    storage.set("achievements by ${user} on ${network}", achievements);
+    storage.setList("achievements by ${user} on ${network}", achievements);
   });
   
   bot.command("list-achievements", (event) {
@@ -107,7 +107,7 @@ void main(args, Plugin myPlugin) {
       return;
     }
         
-    List<String> achievements = storage.get("achievements by ${event.args.isEmpty ? event.user : event.args[0]} on ${event.network}", []);
+    List<String> achievements = storage.getList("achievements by ${event.args.isEmpty ? event.user : event.args[0]} on ${event.network}", defaultValue: []);
     
     if (achievements.isEmpty) {
       event.reply("[${Color.BLUE}Achievements${Color.NORMAL}] No Achievements Earned");
