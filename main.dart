@@ -9,8 +9,8 @@ Storage storage;
 Map<String, Achievement> registered = {};
 Map<String, List<String>> alerts = {};
 
-void main(args, Plugin myPlugin) {
-  plugin = myPlugin;
+void main(args, port) {
+  plugin = polymorphic(args, port);
   
   bot = plugin.getBot();
   storage = plugin.getStorage("achievements");
